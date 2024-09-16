@@ -1,3 +1,4 @@
+import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request, { params }: { params: { userId: string, resumeId: string } }) {
@@ -5,7 +6,7 @@ export async function POST(req: Request, { params }: { params: { userId: string,
 
   try {
     // Update the user's profile with the active resume ID
-    const updatedUserProfile = await prisma.userProfile.update({
+    const updatedUserProfile = await db.UserProfile.update({
       where: {
         userId,
       },
