@@ -3,6 +3,7 @@ import handlebars from 'handlebars'
 import toast from 'react-hot-toast'
 import { ThankYouTemplate } from './designs/thankYou'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const sendMail = async ({to,name,subject,body}:{to:string,name:string,subject:string,body:string})=>{
 
     const {SMTP_PASSWORD,SMTP_EMAIL} = process.env

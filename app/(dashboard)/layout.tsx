@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from './(routes)/admin/jobs/[jobId]/_components/Navbar';
-import Sidebar from './(routes)/admin/jobs/[jobId]/_components/sidebar';
+import Sidebar from './(routes)/admin/jobs/[jobId]/_components/Sidebar';
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (

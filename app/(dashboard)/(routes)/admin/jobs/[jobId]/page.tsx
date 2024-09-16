@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import CategoryForm from '@/app/(dashboard)/(routes)/admin/jobs/[jobId]/_components/CategoryForm';
 import DescriptionForm from '@/app/(dashboard)/(routes)/admin/jobs/[jobId]/_components/jobDescription';
 import JobPublishAction from '@/app/(dashboard)/(routes)/admin/jobs/[jobId]/_components/JobPublishAction';
@@ -105,7 +106,7 @@ const JobDetails = async ({ params }: { params: { jobId: string } }) => {
             <CategoryForm 
               jobId={job.id} 
               initialData={job} 
-              options={categories.map((category) => ({
+              options={categories.map((category: { name: any; id: any; }) => ({
                 label: category.name,
                 value: category.id
               }))}
@@ -134,7 +135,7 @@ const JobDetails = async ({ params }: { params: { jobId: string } }) => {
               <CompanyForm 
                 jobId={job.id} 
                 initialData={job} 
-                options={companies.map((company) => ({
+                options={companies.map((company: { name: any; id: any; }) => ({
                   label: company.name,
                   value: company.id
                 }))}

@@ -12,7 +12,7 @@ interface ImageUploadProps{
     value:string
 }
 
-const ImageUpload = ({disabled,onChange,onRemove,value}:ImageUploadProps) => {
+const ImageUpload = ({onChange,value}:ImageUploadProps) => {
 
     const [isMounted,setIsMounted]=useState(false)
     const [isLoading,setIsLoading]=useState(false)

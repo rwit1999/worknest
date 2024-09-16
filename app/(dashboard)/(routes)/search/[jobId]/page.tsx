@@ -11,7 +11,7 @@ const JobDetails = async ({params}:{params:{jobId:string}}) => {
 
     const {userId} = auth()
 
-    const job = await db.Job.findUnique({
+    const job = await db.job.findUnique({
         where:{
             id:params.jobId
         },
@@ -22,7 +22,7 @@ const JobDetails = async ({params}:{params:{jobId:string}}) => {
 
     if(!job)redirect('/search')
 
-    const profile = await db.UserProfile.findUnique({
+    const profile = await db.userProfile.findUnique({
         where:{
             userId:userId as string
         },

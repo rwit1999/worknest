@@ -1,6 +1,6 @@
 import { db } from '@/lib/db';
 import { auth } from '@clerk/nextjs/server';
-import { ArrowLeft, Network, Settings, Wrench } from 'lucide-react'
+import { ArrowLeft, Settings, Wrench } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation';
 import React from 'react'
@@ -29,9 +29,7 @@ const CompanyDetails =async ({ params }: { params: { companyId: string } }) => {
     } 
   });
 
-  const categories = await db.category.findMany({
-    orderBy: { name: "asc" }
-  });
+ 
 
   if (!company) return redirect('/admin/companys');
 
@@ -53,7 +51,6 @@ const CompanyDetails =async ({ params }: { params: { companyId: string } }) => {
   const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter(Boolean).length;
   const completionText = `(${completedFields}/${totalFields})`;
-  const isComplete = requiredFields.every(Boolean);
 
   return (
     <div className="min-h-screen bg-gray-50 p-4">

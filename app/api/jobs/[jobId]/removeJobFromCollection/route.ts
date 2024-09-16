@@ -2,7 +2,7 @@ import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-export const PATCH = async (req:Request,{params}:{params:{jobId:String}})=>{
+export const PATCH = async (req:Request,{params}:{params:{jobId:string}})=>{
     try{
         const {userId}=auth()
         const {jobId}=params

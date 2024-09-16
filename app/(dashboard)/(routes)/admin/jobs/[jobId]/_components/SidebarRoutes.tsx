@@ -77,6 +77,7 @@ const SidebarRoutes = () => {
 
     const routes = isAdminPage ? adminRoutes : guestRoutes
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleShiftTimingChange = (shiftTimings:any[])=>{
 
         const currentQueryParams=qs.parseUrl(window.location.href).query

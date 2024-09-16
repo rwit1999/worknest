@@ -3,11 +3,10 @@
 import { Editor } from '@/components/editor';
 import { Preview } from '@/components/preview';
 import { Button } from '@/components/ui/button';
-import ComboBox from '@/components/ui/comboBox';
 import { FormControl, FormField, FormItem, FormMessage, Form } from '@/components/ui/form';
 import getGenerativeAiResponse from '@/scripts/aistudio';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Company, Job } from '@prisma/client';
+import { Company } from '@prisma/client';
 import axios from 'axios';
 import { Copy, Lightbulb, Loader2, Pencil } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -29,11 +28,9 @@ const CompanyOverviewForm = ({ initialData, companyId }: companyOverviewProps) =
   const [isEditing, setIsEditing] = useState(false);
   const router = useRouter();
   const [companyName,setCompanyName]=useState("")
-  const [skills,setSkills]=useState("")
-  const [prompt,setPrompt]=useState("")
   const [isPrompting,setIsPrompting]=useState(false)
 
-  const [aiValue,setAiValue]=useState(null)
+  const [aiValue,setAiValue]=useState("")
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,7 +43,7 @@ const CompanyOverviewForm = ({ initialData, companyId }: companyOverviewProps) =
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const response = await axios.patch(`/api/companies/${companyId}`, values);
+      await axios.patch(`/api/companies/${companyId}`, values);
       toast.success('Company updated');
       toggleEditing();
       router.refresh();
@@ -64,7 +61,7 @@ const CompanyOverviewForm = ({ initialData, companyId }: companyOverviewProps) =
 
         await getGenerativeAiResponse(customPrompt).then((data)=>{
           data=data.replace(/^'|'s/g,"")
-          let cleanedText = data.replace(/[\*\#]/g,"")
+          const cleanedText = data.replace(/[\*\#]/g,"")
           // form.setValue('companyOverview',cleanedText)
           setAiValue(cleanedText)
           setIsPrompting(false)

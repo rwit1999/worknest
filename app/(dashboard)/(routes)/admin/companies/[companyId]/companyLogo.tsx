@@ -1,5 +1,5 @@
-'use client';
 
+'use client';
 import ImageUpload from '@/components/imageUpload';
 import { Button } from '@/components/ui/button';
 import { FormControl, FormField, FormItem, FormMessage, Form } from '@/components/ui/form';
@@ -39,7 +39,7 @@ const CompanyLogoForm = ({ initialData, companyId }: LogoFormProps) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       // Save the logo URL in the database
-      const response = await axios.patch(`/api/companies/${companyId}`, { ...values });
+      await axios.patch(`/api/companies/${companyId}`, { ...values });
       toast.success('Company updated');
       toggleEditing();
       router.refresh();
@@ -97,11 +97,10 @@ const CompanyLogoForm = ({ initialData, companyId }: LogoFormProps) => {
                 <FormItem>
                   <FormControl>
                     <ImageUpload
-                      value={field.value}
+                      value={field.value || ''}
                       disabled={isSubmitting}
                       onChange={(url) => field.onChange(url)}
                       onRemove={() => field.onChange('')}
-                      className="w-full h-32"  // Set fixed size for the upload preview
                     />
                   </FormControl>
                   <FormMessage />

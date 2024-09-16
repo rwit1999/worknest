@@ -2,7 +2,6 @@
 
 import { storage } from "@/config/firebase.config";
 import {
-  deleteObject,
   getDownloadURL,
   ref,
   uploadBytesResumable,
@@ -19,7 +18,6 @@ interface AttachmentsUploadsProps {
 }
 
 export const AttachmentsUploads = ({
-  disabled,
   onChange,
   value,
 }: AttachmentsUploadsProps) => {

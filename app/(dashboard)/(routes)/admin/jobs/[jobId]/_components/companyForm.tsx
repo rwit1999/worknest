@@ -38,7 +38,7 @@ const CompanyForm = ({ initialData, jobId, options }: CompanyFormProps) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const response = await axios.patch(`/api/jobs/${jobId}`, values);
+      await axios.patch(`/api/jobs/${jobId}`, values);
       toast.success('Job updated');
       toggleEditing();
       router.refresh();
@@ -85,7 +85,6 @@ const CompanyForm = ({ initialData, jobId, options }: CompanyFormProps) => {
                 <FormItem>
                   <FormControl>
                     <ComboBox
-                      heading='Companies'
                       options={options}
                       value={field.value}
                       onChange={field.onChange} // Correctly bind the onChange event

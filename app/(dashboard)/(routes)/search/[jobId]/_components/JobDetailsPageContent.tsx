@@ -26,7 +26,7 @@ const JobDetailsPageContent = ({ job, jobId, userProfile }: JobDetailsPageConten
     setIsLoading(true)
     try{
 
-      const response = await axios.patch(`/api/users/${userProfile?.userId}/appliedJobs`,jobId)
+      await axios.patch(`/api/users/${userProfile?.userId}/appliedJobs`,jobId)
 
       //send mail to user
       await axios.post(`/api/thankYou`,{

@@ -6,7 +6,7 @@ export async function POST(req: Request, { params }: { params: { userId: string,
 
   try {
     // Update the user's profile with the active resume ID
-    const updatedUserProfile = await db.UserProfile.update({
+    const updatedUserProfile = await db.userProfile.update({
       where: {
         userId,
       },

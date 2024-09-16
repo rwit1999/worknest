@@ -12,7 +12,7 @@ export const PATCH = async(req:Request)=>{
             return new NextResponse("Unauthorized",{status:401})
         }
 
-        const profile = await db.UserProfile.findUnique({
+        const profile = await db.userProfile.findUnique({
             where:{
                 userId:userId as string
             }
@@ -22,7 +22,7 @@ export const PATCH = async(req:Request)=>{
             return new NextResponse("User profile not found",{status:401})
         }
 
-        const updatedProfile = await db.UserProfile.update({
+        const updatedProfile = await db.userProfile.update({
             where:{
                 userId
             },

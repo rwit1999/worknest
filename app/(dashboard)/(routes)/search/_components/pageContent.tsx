@@ -1,10 +1,9 @@
-import { Job } from '@prisma/client';
-import Image from 'next/image';
+import { Company, Job } from '@prisma/client';
 import React from 'react';
 import JobCardItem from './JobCardItem';
 
 interface PageContentProps {
-  jobs: Job[];
+  jobs: (Job & { company: Company | null })[];
   userId: string | null;
 }
 

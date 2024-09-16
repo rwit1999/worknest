@@ -1,6 +1,6 @@
 import { db } from "@/lib/db"
 import { auth } from "@clerk/nextjs/server"
-import { Job } from "@prisma/client"
+import { Category, Company, Job } from "@prisma/client"
 
 type GetJobsProps = {
   title?: string;
@@ -20,13 +20,14 @@ export const getJobs = async ({
   workmode,
   yearsOfExperience,
   savedJobs
-}: GetJobsProps): Promise<Job[]> => {
+}: GetJobsProps): Promise<(Job & { company: Company | null; category: Category | null })[]>=> {
 
   const { userId } = auth();
 
   try {
     // Initialize the query object with default where condition
-    let query: any = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const query: any = {
       where: {
         isPublished: true, // Only published jobs
       },
@@ -104,7 +105,17 @@ export const getJobs = async ({
     }
 
     // Execute the query
-    const jobs = await db.job.findMany(query);
+    const jobs = await db.job.findMany({
+      where: query.where,
+      include: {
+        company: true,
+        category: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    
 
     return jobs;
   } catch (error) {

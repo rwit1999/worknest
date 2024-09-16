@@ -1,6 +1,5 @@
 'use client'
 
-import SearchContainer from "@/components/searchContainer"
 import { Button } from "@/components/ui/button"
 import { UserButton } from "@clerk/nextjs"
 import { LogOut } from "lucide-react"
@@ -12,7 +11,6 @@ const NavBarRoutes = () => {
 
     const isAdminPage = pathname?.startsWith('/admin')
     const isPlayerPage = pathname?.startsWith('/jobs')
-    const isSearchPage = pathname?.startsWith('/search')
 
     return (
         <div className="flex items-center justify-end space-x-4 p-4 bg-white shadow-lg rounded-md">

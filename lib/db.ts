@@ -1,12 +1,12 @@
-// this is require to create db instance that will allow us to perform operations on the db
+import { PrismaClient } from '@prisma/client';
 
-import {PrismaClient} from '@prisma/client'
+// Access the global object with the correct type
+const globalForPrisma = global as unknown as { prisma?: PrismaClient };
 
-declare global{
-    let prisma:PrismaClient | undefined
+// Instantiate PrismaClient and store it globally
+export const db = new PrismaClient();
+
+// Only assign to global in development to avoid multiple instances
+if (process.env.NODE_ENV !== 'production') {
+  globalForPrisma.prisma = db;
 }
-
-export const db = globalThis.prisma || new PrismaClient()
-
-if(process.env.NODE_ENV !=='production')globalThis.prisma=db
-

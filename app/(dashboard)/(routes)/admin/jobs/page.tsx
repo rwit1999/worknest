@@ -1,42 +1,38 @@
-import { Button } from '@/components/ui/button'
-import { DataTable } from '@/components/ui/datatable'
-import Link from 'next/link'
-import React from 'react'
-import { columns, JobsColumns } from './_components/columns'
-import { auth } from '@clerk/nextjs/server'
-import { redirect } from 'next/navigation'
-import { db } from '@/lib/db'
-import {format} from 'date-fns'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Button } from '@/components/ui/button';
+import { DataTable } from '@/components/ui/datatable';
+import Link from 'next/link';
+import React from 'react';
+import { columns, JobsColumns } from './_components/columns';
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
+import { db } from '@/lib/db';
 
 const JobsPageOverview = async () => {
+  const { userId } = auth();
+  if (!userId) return redirect('/');
 
-  const {userId}=auth()
-  if(!userId)return redirect('/')
+  const jobs = await db.job.findMany({
+    where: {
+      userId,
+    },
+    include: {
+      category: true,
+      company: true,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
 
-    const jobs = await db.job.findMany({
-      where:{
-        userId
-      },
-      include:{
-        category:true,
-        company:true
-      },
-      orderBy:{
-        createdAt:"desc"
-      }
-    })
-
-
-    const formattedJobs:JobsColumns[] = jobs.map(job=>({
-      id:job.id,
-      title:job.title,
-      company:job.company? job.company.name : "N/A", // this is imp beacuse job.company is actually an object
-      category:job.category ? job.category.name : "N/A", // this is imp beacuse job.category is actually an object
-      isPublished: job.isPublished,
-      createdAt: job.createdAt 
-    }))
-
-
+  const formattedJobs: JobsColumns[] = jobs.map((job) => ({
+    id: job.id,
+    title: job.title,
+    company: job.company ? job.company.name : 'N/A',
+    category: job.category ? job.category.name : 'N/A',
+    isPublished: job.isPublished,
+    createdAt: job.createdAt.toISOString(), // Convert Date to ISO string
+  }));
 
   return (
     <div>
@@ -46,13 +42,11 @@ const JobsPageOverview = async () => {
         </Link>
       </div>
       {/* data table */}
-
       <div className='mt-10'>
-        <DataTable columns={columns} data={formattedJobs}/>
+        <DataTable columns={columns} data={formattedJobs} />
       </div>
-      
     </div>
-  )
-}
+  );
+};
 
-export default JobsPageOverview
+export default JobsPageOverview;

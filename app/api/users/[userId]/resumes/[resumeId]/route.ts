@@ -3,7 +3,6 @@ import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { deleteObject, ref } from "firebase/storage";
 import { NextResponse } from "next/server";
-import { Resumes } from "@prisma/client";
 
 export const DELETE = async (
   req: Request, 
@@ -23,7 +22,7 @@ export const DELETE = async (
     }
 
     // Fetch the resume by its unique id
-    const resume = await db.Resumes.findUnique({
+    const resume = await db.resumes.findUnique({
       where: {
         id: resumeId,
       },
@@ -39,7 +38,7 @@ export const DELETE = async (
     await deleteObject(storageRef);
 
     // delete from the database
-    await db.Resumes.delete({
+    await db.resumes.delete({
       where: {
         id: resumeId,
       },

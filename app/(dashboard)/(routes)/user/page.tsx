@@ -14,7 +14,7 @@ const ProfilePage = async () => {
 
   if (!userId) redirect('/sign-in');
 
-  const profile = await db.UserProfile.findUnique({
+  const profile = await db.userProfile.findUnique({
     where: {
       userId,
     },
@@ -26,6 +26,17 @@ const ProfilePage = async () => {
       },
     },
   });
+
+  // Provide a fallback profile
+  const fallbackProfile = {
+    userId,
+    fullName: profile?.fullName || '',
+    email: profile?.email || '',
+    contact: profile?.contact || '',
+    activeResumeId: profile?.activeResumeId || null,
+    resumes: profile?.resumes || [],
+    appliedJobs: profile?.appliedJobs || [],
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg mt-6">
@@ -46,22 +57,22 @@ const ProfilePage = async () => {
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
           <h2 className="text-lg font-medium text-gray-800 mb-4">Update Name</h2>
-          <NameForm initialData={profile} userId={userId} />
+          <NameForm initialData={fallbackProfile} userId={userId} />
         </div>
 
         <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
           <h2 className="text-lg font-medium text-gray-800 mb-4">Update Email</h2>
-          <EmailForm initialData={profile} userId={userId} />
+          <EmailForm initialData={fallbackProfile} userId={userId} />
         </div>
 
         <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
           <h2 className="text-lg font-medium text-gray-800 mb-4">Update Contact</h2>
-          <ContactForm initialData={profile} userId={userId} />
+          <ContactForm initialData={fallbackProfile} userId={userId} />
         </div>
 
         <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
           <h2 className="text-lg font-medium text-gray-800 mb-4">Upload Resume</h2>
-          <ResumeForm initialData={profile} userId={userId} />
+          <ResumeForm initialData={fallbackProfile} userId={userId} />
         </div>
       </div>
     </div>

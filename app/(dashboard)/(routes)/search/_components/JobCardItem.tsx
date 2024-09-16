@@ -1,19 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { Job, Company } from "@prisma/client";
+import { Company, Job } from "@prisma/client";
 import {
   Card,
-  CardContent,
   CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
+
 } from "@/components/ui/card";
-import Box from "@/components/box";
+
 import { formatDistanceToNow } from "date-fns";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Bookmark, BookmarkCheck, BookMarked, BriefcaseBusiness, Loader2 } from "lucide-react";
+import { Bookmark, BookmarkCheck, BriefcaseBusiness, Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { truncate } from "lodash";
@@ -22,7 +20,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 interface JobCardItemProps {
-  job: Job;
+  job: Job & { company: Company | null };
   userId: string | null;
 }
 
@@ -31,8 +29,7 @@ const JobCardItem = ({ job, userId }: JobCardItemProps) => {
 
   const isSavedByUser = userId && job.savedUsers?.includes(userId)
 
-  const typeJob = job as Job; // Assert 'job' as type 'Job'
-  const company = typeJob?.company || null; // Safely access 'company' property
+  const company = job?.company || null; // Safely access 'company' property
 
   const router= useRouter()
 

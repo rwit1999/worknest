@@ -14,24 +14,24 @@ import { z } from 'zod';
 
 interface CompanyDescriptionFormProps {
   initialData: {
-    description: string;
+    description: string | null;
   };
   companyId: string;
 }
 
 const formSchema = z.object({
-  description: z.string().min(3, { message: 'Description is missing' }),
+  description: z.string().min(3, { message: 'Description is missing' }).default(''), // Provide a default value
 });
 
 const CompanyDescriptionForm = ({ initialData, companyId }: CompanyDescriptionFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [description, setDescription] = useState(initialData.description); // Track the description in state
+  const [description, setDescription] = useState(initialData.description ?? ''); // Use empty string if null
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      description: initialData.description, // Use initial description in form
+      description: initialData.description ?? '', // Use empty string if null
     },
   });
 
@@ -39,7 +39,7 @@ const CompanyDescriptionForm = ({ initialData, companyId }: CompanyDescriptionFo
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const response = await axios.patch(`/api/companies/${companyId}`, values);
+      await axios.patch(`/api/companies/${companyId}`, values);
       toast.success('Company updated');
       setDescription(values.description); // Update the description in state
       toggleEditing();
@@ -86,6 +86,7 @@ const CompanyDescriptionForm = ({ initialData, companyId }: CompanyDescriptionFo
                       placeholder="e.g 'Add company description'"
                       className="border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-all"
                       {...field}
+                      value={field.value ?? ''} // Ensure value is never null
                     />
                   </FormControl>
                   <FormMessage />

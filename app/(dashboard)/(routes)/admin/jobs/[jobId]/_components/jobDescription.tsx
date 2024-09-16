@@ -3,7 +3,6 @@
 import { Editor } from '@/components/editor';
 import { Preview } from '@/components/preview';
 import { Button } from '@/components/ui/button';
-import ComboBox from '@/components/ui/comboBox';
 import { FormControl, FormField, FormItem, FormMessage, Form } from '@/components/ui/form';
 import getGenerativeAiResponse from '@/scripts/aistudio';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -30,10 +29,9 @@ const DescriptionForm = ({ initialData, jobId }: descriptionProps) => {
   const router = useRouter();
   const [roleName,setRoleName]=useState("")
   const [skills,setSkills]=useState("")
-  const [prompt,setPrompt]=useState("")
   const [isPrompting,setIsPrompting]=useState(false)
 
-  const [aiValue,setAiValue]=useState(null)
+  const [aiValue,setAiValue]=useState("")
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,7 +44,7 @@ const DescriptionForm = ({ initialData, jobId }: descriptionProps) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const response = await axios.patch(`/api/jobs/${jobId}`, values);
+      await axios.patch(`/api/jobs/${jobId}`, values);
       toast.success('Job updated');
       toggleEditing();
       router.refresh();
@@ -64,7 +62,7 @@ const DescriptionForm = ({ initialData, jobId }: descriptionProps) => {
 
         await getGenerativeAiResponse(customPrompt).then((data)=>{
           data=data.replace(/^'|'s/g,"")
-          let cleanedText = data.replace(/[\*\#]/g,"")
+          const cleanedText = data.replace(/[\*\#]/g,"")
           // form.setValue('description',cleanedText)
           setAiValue(cleanedText)
           setIsPrompting(false)

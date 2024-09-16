@@ -36,7 +36,7 @@ const CompanyNameForm = ({ initialData, companyId }: CompanyNameFormProps) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const response = await axios.patch(`/api/companies/${companyId}`, values);
+      await axios.patch(`/api/companies/${companyId}`, values);
       toast.success('company updated');
       toggleEditing();
       router.refresh();

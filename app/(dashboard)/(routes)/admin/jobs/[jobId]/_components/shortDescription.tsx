@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import ComboBox from '@/components/ui/comboBox';
 import { FormControl, FormField, FormItem, FormMessage, Form } from '@/components/ui/form';
 import getGenerativeAiResponse from '@/scripts/aistudio';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -40,7 +39,7 @@ const ShortDescriptionForm = ({ initialData, jobId }: ShortDescriptionProps) => 
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const response = await axios.patch(`/api/jobs/${jobId}`, values);
+      await axios.patch(`/api/jobs/${jobId}`, values);
       toast.success('Job updated');
       toggleEditing();
       router.refresh();

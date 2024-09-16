@@ -33,11 +33,11 @@ const TagsForm = ({ initialData, jobId }: TagsFormProps) => {
     defaultValues: initialData,
   });
 
-  const { isSubmitting, isValid } = form.formState;
+  const { isSubmitting } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const response = await axios.patch(`/api/jobs/${jobId}`, values);
+      await axios.patch(`/api/jobs/${jobId}`, values);
       toast.success('Job updated');
       toggleEditing();
       router.refresh();

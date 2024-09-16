@@ -7,10 +7,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Button } from '@/components/ui/button'
-import { BadgeCheck, Ban, Eye, Loader2, MoreHorizontal, Pencil } from 'lucide-react'
-import Link from 'next/link'
+import { BadgeCheck, Ban, Loader2, MoreHorizontal } from 'lucide-react'
 import toast from 'react-hot-toast'
-import { log } from 'console'
 import axios from 'axios'
 
 
@@ -20,7 +18,7 @@ interface CellActionProps{
   email:string
 }
 
-const CellAction = ({id,fullName,email}:CellActionProps) => {
+const CellAction = ({fullName,email}:CellActionProps) => {
 
   const [isLoading,setIsLoading] = useState(false)
   const [isRejection,setIsRejection] = useState(false)
@@ -37,11 +35,11 @@ const CellAction = ({id,fullName,email}:CellActionProps) => {
       }
   }
   const sendRejected =async ()=>{
-    setIsLoading(true)
+    setIsRejection(true)
       try{
         await axios.post('/api/sendRejected',{email,fullName})
         toast.success('Mail send')
-        setIsLoading(false)
+        setIsRejection(false)
       }catch(error){
         console.log(error);
         toast.error('Something went wrong')

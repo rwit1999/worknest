@@ -30,7 +30,7 @@ export const POST = async (req: Request) => {
 
       //   check the resume with the same url is already exists for this resumeId
 
-      const existingresume = await db.Resumes.findFirst({
+      const existingresume = await db.resumes.findFirst({
         where: {
           userProfileId:userId,
           url
@@ -47,7 +47,7 @@ export const POST = async (req: Request) => {
 
       // create a new resume
       
-      const createdresume = await db.Resumes.create({
+      const createdresume = await db.resumes.create({
         data: {
           url,
           name,
