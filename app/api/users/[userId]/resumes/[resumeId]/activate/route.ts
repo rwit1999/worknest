@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma"; // Adjust this to your Prisma setup
 
 export async function POST(req: Request, { params }: { params: { userId: string, resumeId: string } }) {
   const { userId, resumeId } = params;
