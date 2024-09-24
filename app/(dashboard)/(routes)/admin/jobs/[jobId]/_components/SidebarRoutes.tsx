@@ -20,11 +20,11 @@ const adminRoutes = [
         label: "Companies",
         href: '/admin/companies'
     },
-    {
-        icon: Compass,
-        label: "Analytics",
-        href: '/admin/analytics'
-    },
+    // {
+    //     icon: Compass,
+    //     label: "Analytics",
+    //     href: '/admin/analytics'
+    // },
 ]
 
 const guestRoutes = [
